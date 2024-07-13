@@ -17,4 +17,31 @@ public class EbayHomepagePageObjectTests {
             WebdriverService.closeDriver();
         }
     }
+
+    @Test
+    public void testOpenAdvancedSearchPage_opensAPage_whenHappyDay() {
+        try {
+            WebdriverService.createDriver();
+            EbayHomepagePageObject page = new EbayHomepagePageObject();
+            page.openEbayHomepage();
+            page.openAdvancedSearchPage();
+            assertEquals(page.getUrl(), "https://www.ebay.com/sch/ebayadvsearch");
+        } finally {
+            WebdriverService.closeDriver();
+        }
+    }
+
+    @Test
+    public void testSearchBySeller_opensSellersListings_whenHappyDay() {
+        try {
+            WebdriverService.createDriver();
+            EbayHomepagePageObject page = new EbayHomepagePageObject();
+            page.openEbayHomepage();
+            page.searchBySeller("salty-solesfl");
+            System.out.println(page.getUrl());
+            assertEquals( "https://www.ebay.com/sch/i.html?_ssn=salty-solesfl", page.getUrl());
+        } finally {
+             WebdriverService.closeDriver();
+        }
+    }
 }
