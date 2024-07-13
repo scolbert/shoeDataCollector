@@ -5,9 +5,12 @@ target/
 !**/src/test/**/target/
 
 ### MVN ###
-maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.properties
 mvnw
 mvnw.cmd
+
+### Chrimedriver ###
+src/main/resources/chromedriver
 
 ### STS ###
 .apt_generated
