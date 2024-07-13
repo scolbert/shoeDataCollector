@@ -1,5 +1,6 @@
-package com.tcc.shoedatacollector;
+package com.tcc.shoedatacollector.pageobjects;
 
+import com.tcc.shoedatacollector.WebdriverService;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 

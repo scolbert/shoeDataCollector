@@ -1,6 +1,6 @@
-package com.tcc.shoedatacollector;
+package com.tcc.shoedatacollector.pageobjects;
 
-import com.tcc.shoedatacollector.pageobjects.EbayHomepagePageObject;
+import com.tcc.shoedatacollector.WebdriverService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,7 +39,7 @@ public class EbayHomepagePageObjectTests {
             page.openEbayHomepage();
             page.searchBySeller("salty-solesfl");
             System.out.println(page.getUrl());
-            assertEquals( "https://www.ebay.com/sch/i.html?_ssn=salty-solesfl", page.getUrl());
+            assertEquals( "https://www.ebay.com/sch/i.html?_ssn=salty-solesfl&_ipg=240", page.getUrl());
         } finally {
              WebdriverService.closeDriver();
         }
