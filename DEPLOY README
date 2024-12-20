@@ -1,0 +1,2 @@
+The flyway user and password are stored in the environment variables
+FLYWAY_USER and FLYWAY_PASSWORD.
