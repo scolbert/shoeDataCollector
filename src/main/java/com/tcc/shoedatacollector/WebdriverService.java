@@ -1,4 +1,5 @@
 package com.tcc.shoedatacollector;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,7 +11,7 @@ public class WebdriverService {
 
     public static void createDriver() {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+            WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
             driver = new ChromeDriver(options);
