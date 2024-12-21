@@ -2,7 +2,7 @@ package com.tcc.shoedatacollector.pageobjects;
 
 import com.tcc.shoedatacollector.WebdriverService;
 
-public class EbayHomepagePageObject {
+public class DriverNavigationConfigurer {
     public void openEbayHomepage() {
         WebdriverService.getDriver().get("https://www.ebay.com");
     }

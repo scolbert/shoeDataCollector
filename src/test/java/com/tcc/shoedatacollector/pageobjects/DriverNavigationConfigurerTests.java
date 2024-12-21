@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EbayHomepagePageObjectTests {
+public class DriverNavigationConfigurerTests {
     @Test
     public void testOpenEbayHomePage_opensAPage_whenHappyDay() {
         try {
             WebdriverService.createDriver();
-            EbayHomepagePageObject page = new EbayHomepagePageObject();
+            DriverNavigationConfigurer page = new DriverNavigationConfigurer();
             page.openEbayHomepage();
             assertEquals(page.getUrl(), "https://www.ebay.com/");
         } finally {
@@ -22,7 +22,7 @@ public class EbayHomepagePageObjectTests {
     public void testOpenAdvancedSearchPage_opensAPage_whenHappyDay() {
         try {
             WebdriverService.createDriver();
-            EbayHomepagePageObject page = new EbayHomepagePageObject();
+            DriverNavigationConfigurer page = new DriverNavigationConfigurer();
             page.openEbayHomepage();
             page.openAdvancedSearchPage();
             assertEquals(page.getUrl(), "https://www.ebay.com/sch/ebayadvsearch");
@@ -35,7 +35,7 @@ public class EbayHomepagePageObjectTests {
     public void testSearchBySeller_opensSellersListings_whenHappyDay() {
         try {
             WebdriverService.createDriver();
-            EbayHomepagePageObject page = new EbayHomepagePageObject();
+            DriverNavigationConfigurer page = new DriverNavigationConfigurer();
             page.openEbayHomepage();
             page.searchBySeller("salty-solesfl");
             System.out.println(page.getUrl());
