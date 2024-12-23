@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class SearchBySellerPageObjectTest {
     private WebDriver driver;
     @BeforeEach
@@ -26,10 +30,40 @@ public class SearchBySellerPageObjectTest {
     @Test
     public void testGetSearchResultItems_returnsAtLeastOneItem_whenHappyDay() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        SearchResultsItem[] searchResultsItems = pageObject.getSearchResultItems(driver);
-        assert(searchResultsItems.length > 0);
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        assertFalse(searchResultsItems.isEmpty());
     }
     
-//    @Test
-//    public void
+    @Test
+    public void testGetSearchResultItems_returnsValueInTitle_whenHappyDay() {
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        assertNotNull(searchResultsItems.get(0).getTitle());
+        assertFalse(searchResultsItems.get(0).getTitle().isEmpty());
+    }
+
+    //NOTE: that this test depends on Saltys Soles having at least 240 items listed. If they have less than 240 items listed, this test will fail
+    @Test
+    public void testGetSearchResultItems_returnsPageOfItems_whenSellerHasMoreThanOnePageOfItems() {
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        assert(searchResultsItems.size() == 240); // If this number is larger than 240 than it is likely that we have stopped filtering out the 'Shop on eBay' items
+        assertNotNull(searchResultsItems.get(239).getTitle()); //last item in the list should be populated with data
+        assertFalse(searchResultsItems.get(239).getTitle().isEmpty()); //last item in the list should be populated with data
+    }
+
+    @Test
+    public void displayAllItemTitles(){
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        for (SearchResultsItem item : searchResultsItems) {
+            System.out.println(item.getTitle());
+        }
+    }
+    // TODO separate unit tests from end to end tests
+    // TODO remove 'new items' tag from first of titles
+    // TODO handle this type of title: "<span class="LIGHT_HIGHLIGHT">New Listing</span>OXO 8-Piece Refrigerator Organization Set 13347200 Good Grips GG NEW"
+
+
+
 }
