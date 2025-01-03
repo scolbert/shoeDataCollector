@@ -8,11 +8,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTitleUtilities {
     @Test
-    public void removeHtmlCommentsFromText_removesHtmlComments_whenHtmlCommentsArePresent() {
+    public void removeHtmlFromText_removesHtmlComments_whenHtmlCommentsArePresent() {
         String text = "<!-- this is a comment -->This is not a comment";
-        String result = TitleUtilities.removeHtmlCommentsFromText(text);
+        String result = TitleUtilities.removeHtmlFromText(text);
         assert(result.equals("This is not a comment"));
     }
+
+    @Test
+    public void removeHtmlFromText_removesOtherHtml_whenOtherHtmlIsPresent() {
+        String text = "<span class=\"LIGHT_HIGHLIGHT\">New Listing</span>Nike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n";
+        String result = TitleUtilities.removeHtmlFromText(text);
+        System.out.println("---" + result + "---");
+        assert(result.equals("New ListingNike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n"));
+    }
+
+    @Test
+    public void removeHtmlFromText_doesNotRemoveHtml_whenHtmlIsNotPresent() {
+        String text = "Nike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n";
+        String result = TitleUtilities.removeHtmlFromText(text);
+        System.out.println("---" + result + "---");
+        assert(result.equals("Nike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n"));
+    }
+
+    @Test
+    public void removeWordsNewListingFromText_removesNewListing_whenNewListingIsPresent() {
+        String text = "New ListingNike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n";
+        String result = TitleUtilities.removeWordsNewListingFromText(text);
+        System.out.println("---" + result + "---");
+        assert(result.equals("Nike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n"));
+    }
+
+    @Test
+    public void removeWordsNewListingFromText_doesNotRemoveNewListing_whenNewListingIsNotPresent() {
+        String text = "Nike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n";
+        String result = TitleUtilities.removeWordsNewListingFromText(text);
+        System.out.println("---" + result + "---");
+        assert(result.equals("Nike Air Max 95 Womens Size 8.5 Shoes Sail Pink Guava Ice Athletic Sneakers\n"));
+    }
+
 
     @Test
     public void hasShopOnEbayTitle_returnsTrue_whenItemHasTitleContainingShopOnEbay() {

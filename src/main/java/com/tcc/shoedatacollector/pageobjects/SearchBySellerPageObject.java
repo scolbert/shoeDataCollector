@@ -16,7 +16,7 @@ public class SearchBySellerPageObject {
         for (WebElement element : elements) {
             SearchResultsItem item = new SearchResultsItem();
             String text = element.getAttribute("innerHTML");
-            item.setTitle(TitleUtilities.removeHtmlCommentsFromText(text));
+            item.setTitle(TitleUtilities.removeHtmlFromText(text));
             if(TitleUtilities.hasShopOnEbayTitle(item)) {
                 System.out.println("Skipping item with title: " + item.getTitle());
                 continue;
