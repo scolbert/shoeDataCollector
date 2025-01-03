@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestTitleUtilities {
+public class TitleUtilitiesTests {
     @Test
     public void removeHtmlFromText_removesHtmlComments_whenHtmlCommentsArePresent() {
         String text = "<!-- this is a comment -->This is not a comment";

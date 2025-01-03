@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SearchBySellerPageObjectTest {
+public class SearchBySellerPageObjectIT {
     private WebDriver driver;
     @BeforeEach
     public void setUp() {
@@ -61,7 +61,6 @@ public class SearchBySellerPageObjectTest {
         }
     }
 
-    // TODO separate unit tests from end to end tests using surefire and failsafe plugins
     // TODO can I test the following things at this level? Perhaps just tests to confirm that the proper methods are being called
         // TODO remove 'new items' tag from first of titles
         // TODO handle this type of title: "<span class="LIGHT_HIGHLIGHT">New Listing</span>OXO 8-Piece Refrigerator Organization Set 13347200 Good Grips GG NEW"

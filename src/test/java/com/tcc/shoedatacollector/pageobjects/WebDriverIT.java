@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class WebDriverTests {
+public class WebDriverIT {
     //test to show that the WebDriver is working using junit
     @Test
     public void testWebDriverCreateAndGet_createsAndGetsAWebpage_whenHappyDay() {
