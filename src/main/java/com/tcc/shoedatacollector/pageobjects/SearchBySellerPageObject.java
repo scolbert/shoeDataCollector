@@ -12,16 +12,20 @@ import java.util.List;
 public class SearchBySellerPageObject {
     public List<SearchResultsItem> getSearchResultItems(WebDriver driver) {
         List<SearchResultsItem> result = new ArrayList<>();
-        List<WebElement> elements = driver.findElements(By.cssSelector("div.s-item__title > span[role='heading']"));
-        for (WebElement element : elements) {
-            SearchResultsItem item = new SearchResultsItem();
-            String text = element.getAttribute("innerHTML");
-            item.setTitle(TitleUtilities.removeHtmlFromText(text));
-            if(TitleUtilities.hasShopOnEbayTitle(item)) {
-                System.out.println("Skipping item with title: " + item.getTitle());
+        List<WebElement> titleBlocks = driver.findElements(By.cssSelector("div.s-item__title > span[role='heading']"));
+        for (WebElement titleBlock : titleBlocks) {
+            SearchResultsItem listing = new SearchResultsItem();
+            String titleText = titleBlock.getAttribute("innerHTML");
+            String cleanedUpTitle =
+                    TitleUtilities.removeWordsNewListingFromText(
+                    TitleUtilities.removeHtmlFromText(titleText));
+            listing.setTitle(cleanedUpTitle);
+            // Skip adding items to the list if they have "Shop on eBay" in the title
+            if(TitleUtilities.hasShopOnEbayTitle(listing)) {
+                System.out.println("Skipping item with title: " + listing.getTitle());
                 continue;
             }
-            result.add(item);
+            result.add(listing);
         }
 
         return result;

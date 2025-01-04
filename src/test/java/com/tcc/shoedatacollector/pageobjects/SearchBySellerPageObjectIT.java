@@ -42,7 +42,8 @@ public class SearchBySellerPageObjectIT {
         assertFalse(searchResultsItems.get(0).getTitle().isEmpty());
     }
 
-    //NOTE: that this test depends on Saltys Soles having at least 240 items listed. If they have less than 240 items listed, this test will fail
+    //NOTE: that this test depends on The scanned seller having at least 240 items listed. If they have less than 240 items listed, this test will fail
+    //TODO find a way to test this without relying on the source page
     @Test
     public void testGetSearchResultItems_returnsPageOfItems_whenSellerHasMoreThanOnePageOfItems() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
@@ -61,11 +62,34 @@ public class SearchBySellerPageObjectIT {
         }
     }
 
-    // TODO can I test the following things at this level? Perhaps just tests to confirm that the proper methods are being called
-        // TODO remove 'new items' tag from first of titles
-        // TODO handle this type of title: "<span class="LIGHT_HIGHLIGHT">New Listing</span>OXO 8-Piece Refrigerator Organization Set 13347200 Good Grips GG NEW"
-        // TODO add tests to make sure that the 'Shop on eBay' items are being filtered out
+    @Test
+    public void testGetSearchResultItems_returnsNoItemsWithShopOnEbayTitle_whenSellerHasMoreThanOnePageOfItems() {
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        for (SearchResultsItem item : searchResultsItems) {
+            assertFalse(item.getTitle().contains("Shop on eBay"));
+        }
+    }
 
+    //TODO these 2 tests may pass even if they are broken because the source page may not have instances of these issues
+    // Need to find a way to test these without relying on the source page
+    @Test
+    public void testGetSearchResultItems_returnsNoItemsWithHtmlInTitle_whenSellerHasMoreThanOnePageOfItems() {
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        for (SearchResultsItem item : searchResultsItems) {
+            assertFalse(item.getTitle().contains("<"));
+        }
+    }
+
+    @Test
+    public void testGetSearchResultItems_returnsNoItemsWithNewListingInTitle_whenSellerHasMoreThanOnePageOfItems() {
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        for (SearchResultsItem item : searchResultsItems) {
+            assertFalse(item.getTitle().startsWith("New Listing"));
+        }
+    }
 
 
 }

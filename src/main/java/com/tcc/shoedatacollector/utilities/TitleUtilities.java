@@ -4,7 +4,6 @@ import com.tcc.shoedatacollector.DTOs.SearchResultsItem;
 
 public class TitleUtilities {
     public static String removeHtmlFromText(String text) {
-//        return text.replaceAll("<!--.*?-->", "");
         return text.replaceAll("<.*?>", "");
     }
 
