@@ -30,6 +30,7 @@
         <java.version>17</java.version>
         <FLYWAY_USER>${env.FLYWAY_USER}</FLYWAY_USER>
         <FLYWAY_PASSWORD>${env.FLYWAY_PASSWORD}</FLYWAY_PASSWORD>
+        <logback.version>1.5.16</logback.version>
     </properties>
     <dependencies>
         <dependency>

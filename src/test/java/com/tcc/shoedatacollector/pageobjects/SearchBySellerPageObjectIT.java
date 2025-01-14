@@ -90,6 +90,4 @@ public class SearchBySellerPageObjectIT {
             assertFalse(item.getTitle().startsWith("New Listing"));
         }
     }
-
-
 }
