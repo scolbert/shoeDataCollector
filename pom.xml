@@ -28,7 +28,9 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <!--suppress UnresolvedMavenProperty-->
         <FLYWAY_USER>${env.FLYWAY_USER}</FLYWAY_USER>
+        <!--suppress UnresolvedMavenProperty-->
         <FLYWAY_PASSWORD>${env.FLYWAY_PASSWORD}</FLYWAY_PASSWORD>
         <logback.version>1.5.16</logback.version>
     </properties>
