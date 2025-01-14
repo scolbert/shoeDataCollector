@@ -6,11 +6,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SearchBySellerPageObjectIT {
     private WebDriver driver;
@@ -23,15 +23,6 @@ public class SearchBySellerPageObjectIT {
     @AfterEach
     public void tearDown() {
         WebdriverService.closeDriver();
-    }
-
-    // Note that this test will fail if the seller doesn't have a full page of items listed
-    @Test
-    public void testGetListingElements_returnsAtLeastOneElement_whenPageIsFullOfItems() {
-        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<WebElement> listingElements = pageObject.getListingElements(driver);
-        System.out.println("Listing Elements Size = " + listingElements.size());
-        assertEquals(listingElements.size(), 242);
     }
 
     @Test

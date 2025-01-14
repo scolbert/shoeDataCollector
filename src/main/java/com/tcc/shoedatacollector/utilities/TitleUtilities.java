@@ -11,7 +11,8 @@ public class TitleUtilities {
         return text.replaceAll("New Listing", "");
     }
 
-    public static boolean hasShopOnEbayTitle(SearchResultsItem ignorableTitleItem) {
-        return ignorableTitleItem.getTitle().contains("Shop on eBay");
+    // Ghost listings are listings that ebay has in their HTML but they don't actually show up on the page
+    public static boolean isGhostListing(SearchResultsItem listing) {
+        return listing.getTitle().contains("Shop on eBay");
     }
 }

@@ -53,7 +53,7 @@ public class TitleUtilitiesTests {
         SearchResultsItem ignorableTitleItem = new SearchResultsItem();
         ignorableTitleItem.setTitle(ignorableTitle);
 
-        assertTrue(TitleUtilities.hasShopOnEbayTitle(ignorableTitleItem));
+        assertTrue(TitleUtilities.isGhostListing(ignorableTitleItem));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TitleUtilitiesTests {
         SearchResultsItem validTitleItem = new SearchResultsItem();
         validTitleItem.setTitle(validTitle);
 
-        assertFalse(TitleUtilities.hasShopOnEbayTitle(validTitleItem));
+        assertFalse(TitleUtilities.isGhostListing(validTitleItem));
     }
 
 }

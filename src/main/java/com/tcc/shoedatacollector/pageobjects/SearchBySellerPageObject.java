@@ -12,7 +12,7 @@ import java.util.List;
 public class SearchBySellerPageObject {
     private final List<SearchResultsItem> result = new ArrayList<>();
 
-    public List<WebElement> getListingElements(WebDriver driver) {
+    private List<WebElement> getListingElements(WebDriver driver) {
         return driver.findElements(By.className("s-item__wrapper"));
     }
 
@@ -20,20 +20,25 @@ public class SearchBySellerPageObject {
         List<WebElement> listingElements = getListingElements(driver);
         for (WebElement listingElement : listingElements) {
             SearchResultsItem listing = new SearchResultsItem();
-            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
-            String cleanedUpTitle =
-                    TitleUtilities.removeWordsNewListingFromText(
-                    TitleUtilities.removeHtmlFromText(titleText));
-            listing.setTitle(cleanedUpTitle);
-            // Skip adding items to the list if they have "Shop on eBay" in the title
-            if(TitleUtilities.hasShopOnEbayTitle(listing)) {
+
+            String titleText = extractTitle(listingElement);
+
+            listing.setTitle(titleText);
+            // Skip adding listings to the list if they have "Shop on eBay" in the title
+            if(TitleUtilities.isGhostListing(listing)) {
                 System.out.println("Skipping item with title: " + listing.getTitle());
                 continue;
             }
             result.add(listing);
         }
-
         return result;
+    }
+
+    private static String extractTitle(WebElement listingElement) {
+        String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+        titleText =
+                TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+        return titleText;
     }
 
 }
