@@ -15,8 +15,7 @@ public class SearchBySellerPageObjectIT {
     private WebDriver driver;
     @BeforeEach
     public void setUp() {
-        WebdriverService.createDriver();
-        driver = WebdriverService.getDriver();
+        driver = WebdriverService.createDriver();
         //TODO clean up syntax for adding navigation. Should be able to use static method to avoid creating an instance of the class. Possibly combine create driver with navigation configurer into one config class
         DriverNavigationConfigurer page = new DriverNavigationConfigurer();
         page.searchBySeller("salty-solesfl");

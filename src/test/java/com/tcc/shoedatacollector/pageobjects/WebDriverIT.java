@@ -12,9 +12,8 @@ public class WebDriverIT {
     @Test
     public void testWebDriverCreateAndGet_createsAndGetsAWebpage_whenHappyDay() {
             try {
-                WebdriverService.createDriver();
+                WebDriver driver = WebdriverService.createDriver();
 
-                WebDriver driver = WebdriverService.getDriver();
                 driver.get("https://www.google.com");
                 String currentUrl = driver.getCurrentUrl();
 
@@ -27,8 +26,7 @@ public class WebDriverIT {
     @Test
     public void testCloseWebDriver_closesAWebpage_whenHappyDay() {
             try {
-                WebdriverService.createDriver();
-                WebDriver driver = WebdriverService.getDriver();
+                WebDriver driver = WebdriverService.createDriver();
                 driver.get("https://www.google.com");
 
                 WebdriverService.closeDriver();
