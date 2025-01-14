@@ -2,8 +2,8 @@ package com.tcc.shoedatacollector.pageobjects;
 
 import com.tcc.shoedatacollector.DTOs.SearchResultsItem;
 import com.tcc.shoedatacollector.WebdriverService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 
@@ -13,15 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SearchBySellerPageObjectIT {
-    private WebDriver driver;
-    @BeforeEach
-    public void setUp() {
+    private static WebDriver driver;
+    @BeforeAll
+    public static void setUp() {
         driver = WebdriverService.createDriver();
         DriverNavigator.openSearchBySeller("salty-solesfl");
     }
 
-    @AfterEach
-    public void tearDown() {
+    @AfterAll
+    public static void tearDown() {
         WebdriverService.closeDriver();
     }
 
