@@ -4,6 +4,7 @@ import com.tcc.shoedatacollector.DTOs.SearchResultsItem;
 import com.tcc.shoedatacollector.WebdriverService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 
@@ -14,10 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SearchBySellerPageObjectIT {
     private static WebDriver driver;
+    private static String seller = "salty-solesfl";
+
     @BeforeAll
+
     public static void setUp() {
         driver = WebdriverService.createDriver();
-        DriverNavigator.openSearchBySeller("salty-solesfl");
+        DriverNavigator.openSearchBySeller(seller);
     }
 
     @AfterAll
@@ -51,16 +55,6 @@ public class SearchBySellerPageObjectIT {
         assertFalse(searchResultsItems.get(239).getTitle().isEmpty()); //last item in the list should be populated with data
     }
 
-    // This is a convenience test so that developers can see the titles of the items in the logs. It is not asserting anything.
-    @Test
-    public void displayAllItemTitles(){
-        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
-        for (SearchResultsItem item : searchResultsItems) {
-            System.out.println(item.getTitle());
-        }
-    }
-
     @Test
     public void testGetSearchResultItems_returnsNoItemsWithShopOnEbayTitle_whenSellerHasMoreThanOnePageOfItems() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
@@ -89,4 +83,22 @@ public class SearchBySellerPageObjectIT {
             assertFalse(item.getTitle().startsWith("New Listing"));
         }
     }
+
+    @Disabled  // comment this out if I need to see all titles. This is for development purposes only.
+    @Test
+    public void displayAllItemTitles(){
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        for (SearchResultsItem item : searchResultsItems) {
+            System.out.println(item.getTitle());
+        }
+    }
+
+    @Disabled // enable when I need to see the actual web page that is being used in tests. This is for development purposes only.
+    @Test
+    public void openWebPageInChromeBrowser() {
+        WebdriverService.createDriverWithHead();
+        DriverNavigator.OpenSearchBySellerInBrowser(seller);
+    }
+
 }

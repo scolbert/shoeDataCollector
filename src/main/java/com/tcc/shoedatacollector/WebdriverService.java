@@ -8,22 +8,35 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class WebdriverService {
     @Getter
-    private static WebDriver driver;
+    public static WebDriver driverWithHead;
+    @Getter
+    private static WebDriver headlessDriver;
 
     public static WebDriver createDriver() {
-        if (driver == null) {
+        if (headlessDriver == null) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
-            driver = new ChromeDriver(options);
+            options.addArguments("--headless");
+            headlessDriver = new ChromeDriver(options);
         }
-        return driver;
+        return headlessDriver;
     }
 
     public static void closeDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (headlessDriver != null) {
+            headlessDriver.quit();
+            headlessDriver = null;
         }
+    }
+
+    public static WebDriver createDriverWithHead() {
+        if (driverWithHead == null) {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--incognito");
+            driverWithHead = new ChromeDriver(options);
+        }
+        return driverWithHead;
     }
 }

@@ -31,7 +31,7 @@ public class WebDriverIT {
 
                 WebdriverService.closeDriver();
 
-                assertNull(WebdriverService.getDriver());
+                assertNull(WebdriverService.getHeadlessDriver());
             } finally {
                 WebdriverService.closeDriver();
             }
