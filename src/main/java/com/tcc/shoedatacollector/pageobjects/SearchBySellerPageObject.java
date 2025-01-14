@@ -24,9 +24,9 @@ public class SearchBySellerPageObject {
             String titleText = extractTitle(listingElement);
 
             listing.setTitle(titleText);
-            // Skip adding listings to the list if they have "Shop on eBay" in the title
+            // Ghost listings have "Shop on eBay" in the title
             if(TitleUtilities.isGhostListing(listing)) {
-                System.out.println("Skipping item with title: " + listing.getTitle());
+                System.out.println("Skipping ghost listing");
                 continue;
             }
             result.add(listing);
