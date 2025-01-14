@@ -2,19 +2,19 @@ package com.tcc.shoedatacollector.pageobjects;
 
 import com.tcc.shoedatacollector.WebdriverService;
 
-public class DriverNavigationConfigurer {
-    public void openEbayHomepage() {
+public class DriverNavigator {
+    public static void openEbayHomepage() {
         WebdriverService.getDriver().get("https://www.ebay.com");
     }
 
-    public String getUrl() {
+    public static String getUrl() {
         return WebdriverService.getDriver().getCurrentUrl();
     }
 
-    public void openAdvancedSearchPage() {
+    public static void openAdvancedSearchPage() {
         WebdriverService.getDriver().get("https://www.ebay.com/sch/ebayadvsearch");
     }
-    public void searchBySeller(String seller) {
+    public static void openSearchBySeller(String seller) {
         WebdriverService.getDriver().get("https://www.ebay.com/sch/i.html?_ssn=" + seller + "&_ipg=240");
     }
 }

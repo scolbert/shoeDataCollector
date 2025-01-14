@@ -10,12 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBySellerPageObject {
+    private final List<SearchResultsItem> result = new ArrayList<>();
+
+    public List<WebElement> getListingElements(WebDriver driver) {
+        return driver.findElements(By.className("s-item__wrapper"));
+    }
+
     public List<SearchResultsItem> getSearchResultItems(WebDriver driver) {
-        List<SearchResultsItem> result = new ArrayList<>();
-        List<WebElement> titleBlocks = driver.findElements(By.cssSelector("div.s-item__title > span[role='heading']"));
-        for (WebElement titleBlock : titleBlocks) {
+        List<WebElement> listingElements = getListingElements(driver);
+        for (WebElement listingElement : listingElements) {
             SearchResultsItem listing = new SearchResultsItem();
-            String titleText = titleBlock.getAttribute("innerHTML");
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
             String cleanedUpTitle =
                     TitleUtilities.removeWordsNewListingFromText(
                     TitleUtilities.removeHtmlFromText(titleText));
@@ -32,3 +37,11 @@ public class SearchBySellerPageObject {
     }
 
 }
+// Thoughts about this class's structure:
+// - I need to move the items array list to the class level.
+// - I need to move the driver to the class level.
+// - I should use a constructor to call a bunch of parse methods that extract the important data from the page - maybe it should just go to a mapper
+// - the first parse method should parse each listing into its own html element so that I can ensure that fields match the auction
+
+// - The data should be returned as a List<Item> so that users can work with items in the list
+// - I should add a method to get the next page of items

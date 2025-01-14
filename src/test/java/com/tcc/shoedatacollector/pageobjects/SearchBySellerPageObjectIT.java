@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -16,14 +17,21 @@ public class SearchBySellerPageObjectIT {
     @BeforeEach
     public void setUp() {
         driver = WebdriverService.createDriver();
-        //TODO clean up syntax for adding navigation. Should be able to use static method to avoid creating an instance of the class. Possibly combine create driver with navigation configurer into one config class
-        DriverNavigationConfigurer page = new DriverNavigationConfigurer();
-        page.searchBySeller("salty-solesfl");
+        DriverNavigator.openSearchBySeller("salty-solesfl");
     }
 
     @AfterEach
     public void tearDown() {
         WebdriverService.closeDriver();
+    }
+
+    // Note that this test will fail if the seller doesn't have a full page of items listed
+    @Test
+    public void testGetListingElements_returnsAtLeastOneElement_whenPageIsFullOfItems() {
+        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
+        List<WebElement> listingElements = pageObject.getListingElements(driver);
+        System.out.println("Listing Elements Size = " + listingElements.size());
+        assertEquals(listingElements.size(), 242);
     }
 
     @Test
@@ -52,6 +60,7 @@ public class SearchBySellerPageObjectIT {
         assertFalse(searchResultsItems.get(239).getTitle().isEmpty()); //last item in the list should be populated with data
     }
 
+    // This is a convenience test so that developers can see the titles of the items in the logs. It is not asserting anything.
     @Test
     public void displayAllItemTitles(){
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();

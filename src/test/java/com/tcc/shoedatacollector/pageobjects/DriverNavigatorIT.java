@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DriverNavigationConfigurerIT {
+public class DriverNavigatorIT {
     @Test
     public void testOpenEbayHomePage_opensAPage_whenHappyDay() {
         try {
             WebdriverService.createDriver();
-            DriverNavigationConfigurer page = new DriverNavigationConfigurer();
-            page.openEbayHomepage();
-            assertEquals(page.getUrl(), "https://www.ebay.com/");
+            DriverNavigator.openEbayHomepage();
+            assertEquals(DriverNavigator.getUrl(), "https://www.ebay.com/");
         } finally {
             WebdriverService.closeDriver();
         }
@@ -22,10 +21,8 @@ public class DriverNavigationConfigurerIT {
     public void testOpenAdvancedSearchPage_opensAPage_whenHappyDay() {
         try {
             WebdriverService.createDriver();
-            DriverNavigationConfigurer page = new DriverNavigationConfigurer();
-            page.openEbayHomepage();
-            page.openAdvancedSearchPage();
-            assertEquals(page.getUrl(), "https://www.ebay.com/sch/ebayadvsearch");
+            DriverNavigator.openAdvancedSearchPage();
+            assertEquals(DriverNavigator.getUrl(), "https://www.ebay.com/sch/ebayadvsearch");
         } finally {
             WebdriverService.closeDriver();
         }
@@ -35,11 +32,9 @@ public class DriverNavigationConfigurerIT {
     public void testSearchBySeller_opensSellersListings_whenHappyDay() {
         try {
             WebdriverService.createDriver();
-            DriverNavigationConfigurer page = new DriverNavigationConfigurer();
-            page.openEbayHomepage();
-            page.searchBySeller("salty-solesfl");
-            System.out.println(page.getUrl());
-            assertEquals( "https://www.ebay.com/sch/i.html?_ssn=salty-solesfl&_ipg=240", page.getUrl());
+            DriverNavigator.openSearchBySeller("salty-solesfl");
+            System.out.println(DriverNavigator.getUrl());
+            assertEquals( "https://www.ebay.com/sch/i.html?_ssn=salty-solesfl&_ipg=240", DriverNavigator.getUrl());
         } finally {
              WebdriverService.closeDriver();
         }
