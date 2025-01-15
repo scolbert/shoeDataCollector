@@ -99,4 +99,5 @@ public class SearchBySellerPageToolsIT {
         WebdriverService.OpenSearchBySellerInBrowser(seller);
     }
 
+    //TODO : remove public keyword from all tests
 }

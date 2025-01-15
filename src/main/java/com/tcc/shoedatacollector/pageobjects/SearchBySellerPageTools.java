@@ -52,10 +52,8 @@ public class SearchBySellerPageTools {
     }
 
 }
-// Thoughts about this class's structure:
-// - I need to move the driver to the class level.
-// - I should use a constructor to call a bunch of parse methods that extract the important data from the page - maybe it should just go to a mapper
-// - the first parse method should parse each listing into its own html element so that I can ensure that fields match the auction
 
-// - The data should be returned as a List<Item> so that users can work with items in the list
+// TODO: Mock web elements in tests - https://stackoverflow.com/questions/64046452/headless-chrome-using-selenium-java-running-tests-in-normal-ui-mode-of-browser
+// Thoughts about this class's structure:
+// - I should use a constructor to call a bunch of parse methods that extract the important data from the page - maybe it should just go to a mapper
 // - I should add a method to get the next page of items
