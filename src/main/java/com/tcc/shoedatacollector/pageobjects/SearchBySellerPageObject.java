@@ -16,7 +16,7 @@ public class SearchBySellerPageObject {
         return driver.findElements(By.className("s-item__wrapper"));
     }
 
-    public List<SearchResultsItem> getSearchResultItems(WebDriver driver) {
+    public List<SearchResultsItem> getListings(WebDriver driver) {
         List<WebElement> listingElements = getListingElements(driver);
         for (WebElement listingElement : listingElements) {
             SearchResultsItem listing = new SearchResultsItem();

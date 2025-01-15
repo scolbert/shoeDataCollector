@@ -15,13 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SearchBySellerPageObjectIT {
     private static WebDriver driver;
-    private static String seller = "salty-solesfl";
+    private static final String seller = "salty-solesfl";
 
     @BeforeAll
 
     public static void setUp() {
-        driver = WebdriverService.createDriver();
-        DriverNavigator.openSearchBySeller(seller);
+        driver = WebdriverService.openSearchBySeller(seller);
     }
 
     @AfterAll
@@ -32,14 +31,14 @@ public class SearchBySellerPageObjectIT {
     @Test
     public void testGetSearchResultItems_returnsAtLeastOneItem_whenHappyDay() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        List<SearchResultsItem> searchResultsItems = pageObject.getListings(driver);
         assertFalse(searchResultsItems.isEmpty());
     }
     
     @Test
     public void testGetSearchResultItems_returnsValueInTitle_whenHappyDay() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        List<SearchResultsItem> searchResultsItems = pageObject.getListings(driver);
         assertNotNull(searchResultsItems.get(0).getTitle());
         assertFalse(searchResultsItems.get(0).getTitle().isEmpty());
     }
@@ -49,7 +48,7 @@ public class SearchBySellerPageObjectIT {
     @Test
     public void testGetSearchResultItems_returnsPageOfItems_whenSellerHasMoreThanOnePageOfItems() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        List<SearchResultsItem> searchResultsItems = pageObject.getListings(driver);
         assert(searchResultsItems.size() == 240); // If this number is larger than 240 than it is likely that we have stopped filtering out the 'Shop on eBay' items
         assertNotNull(searchResultsItems.get(239).getTitle()); //last item in the list should be populated with data
         assertFalse(searchResultsItems.get(239).getTitle().isEmpty()); //last item in the list should be populated with data
@@ -58,7 +57,7 @@ public class SearchBySellerPageObjectIT {
     @Test
     public void testGetSearchResultItems_returnsNoItemsWithShopOnEbayTitle_whenSellerHasMoreThanOnePageOfItems() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        List<SearchResultsItem> searchResultsItems = pageObject.getListings(driver);
         for (SearchResultsItem item : searchResultsItems) {
             assertFalse(item.getTitle().contains("Shop on eBay"));
         }
@@ -69,7 +68,7 @@ public class SearchBySellerPageObjectIT {
     @Test
     public void testGetSearchResultItems_returnsNoItemsWithHtmlInTitle_whenSellerHasMoreThanOnePageOfItems() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        List<SearchResultsItem> searchResultsItems = pageObject.getListings(driver);
         for (SearchResultsItem item : searchResultsItems) {
             assertFalse(item.getTitle().contains("<"));
         }
@@ -78,7 +77,7 @@ public class SearchBySellerPageObjectIT {
     @Test
     public void testGetSearchResultItems_returnsNoItemsWithNewListingInTitle_whenSellerHasMoreThanOnePageOfItems() {
         SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        List<SearchResultsItem> searchResultsItems = pageObject.getListings(driver);
         for (SearchResultsItem item : searchResultsItems) {
             assertFalse(item.getTitle().startsWith("New Listing"));
         }
@@ -87,8 +86,8 @@ public class SearchBySellerPageObjectIT {
     @Disabled  // comment this out if I need to see all titles. This is for development purposes only.
     @Test
     public void displayAllItemTitles(){
-        SearchBySellerPageObject pageObject = new SearchBySellerPageObject();
-        List<SearchResultsItem> searchResultsItems = pageObject.getSearchResultItems(driver);
+        SearchBySellerPageObject SearchPage = new SearchBySellerPageObject();
+        List<SearchResultsItem> searchResultsItems = SearchPage.getListings(driver);
         for (SearchResultsItem item : searchResultsItems) {
             System.out.println(item.getTitle());
         }
@@ -97,8 +96,7 @@ public class SearchBySellerPageObjectIT {
     @Disabled // enable when I need to see the actual web page that is being used in tests. This is for development purposes only.
     @Test
     public void openWebPageInChromeBrowser() {
-        WebdriverService.createDriverWithHead();
-        DriverNavigator.OpenSearchBySellerInBrowser(seller);
+        WebdriverService.OpenSearchBySellerInBrowser(seller);
     }
 
 }
