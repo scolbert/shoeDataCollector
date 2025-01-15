@@ -43,6 +43,7 @@ public class WebdriverService {
         return driverWithHead;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static WebDriver openEbayHomepage() {
         WebDriver driver = createHeadlessDriver();
         getHeadlessDriver().get("https://www.ebay.com");
@@ -53,6 +54,7 @@ public class WebdriverService {
         return WebdriverService.getHeadlessDriver().getCurrentUrl();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static WebDriver openAdvancedSearchPage() {
         WebDriver driver = createHeadlessDriver();
         WebdriverService.getHeadlessDriver().get("https://www.ebay.com/sch/ebayadvsearch");
@@ -64,6 +66,7 @@ public class WebdriverService {
         return driver;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static WebDriver OpenSearchBySellerInBrowser(String seller) {
         WebDriver driver = createDriverWithHead();
         WebdriverService.driverWithHead.get("https://www.ebay.com/sch/i.html?_ssn=" + seller + "&_ipg=240");
