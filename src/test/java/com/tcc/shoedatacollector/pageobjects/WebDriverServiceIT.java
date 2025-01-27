@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class WebDriverServiceIT {
     @Test
-    public void testWebDriverCreateAndGet_createsAndGetsAWebpage_whenHappyDay() {
+    void testWebDriverCreateAndGet_createsAndGetsAWebpage_whenHappyDay() {
             try {
                 WebDriver driver = WebdriverService.createHeadlessDriver();
 
@@ -23,7 +23,7 @@ public class WebDriverServiceIT {
     }
 
     @Test
-    public void testCloseWebDriver_closesAWebpage_whenHappyDay() {
+    void testCloseWebDriver_closesAWebpage_whenHappyDay() {
             try {
                 WebDriver driver = WebdriverService.createHeadlessDriver();
                 driver.get("https://www.google.com");
@@ -36,7 +36,7 @@ public class WebDriverServiceIT {
     }
 
     @Test
-    public void testOpenEbayHomePage_opensAPage_whenHappyDay() {
+    void testOpenEbayHomePage_opensAPage_whenHappyDay() {
         try {
             WebdriverService.openEbayHomepage();
             assertEquals(WebdriverService.getUrl(), "https://www.ebay.com/");
@@ -46,7 +46,7 @@ public class WebDriverServiceIT {
     }
 
     @Test
-    public void testOpenAdvancedSearchPage_opensAPage_whenHappyDay() {
+    void testOpenAdvancedSearchPage_opensAPage_whenHappyDay() {
         try {
             WebdriverService.openAdvancedSearchPage();
             assertEquals(WebdriverService.getUrl(), "https://www.ebay.com/sch/ebayadvsearch");
@@ -56,7 +56,7 @@ public class WebDriverServiceIT {
     }
 
     @Test
-    public void testSearchBySeller_opensSellersListings_whenHappyDay() {
+    void testSearchBySeller_opensSellersListings_whenHappyDay() {
         try {
             WebdriverService.openSearchBySeller("salty-solesfl");
             assertEquals( "https://www.ebay.com/sch/i.html?_ssn=salty-solesfl&_ipg=240", WebdriverService.getUrl());
