@@ -1,11 +1,10 @@
 package com.tcc.shoedatacollector.pageobjects;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.tcc.shoedatacollector.DTOs.SearchResultsItem;
 import com.tcc.shoedatacollector.WebdriverService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
@@ -16,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class SearchBySellerPageToolsIT {
     private static WebDriver sbsPage;
     private static final String seller = "salty-solesfl";
+    private WireMockServer wireMockServer;
 
     @BeforeAll
-
     static void setUp() {
         sbsPage = WebdriverService.openSearchBySeller(seller);
     }
@@ -26,6 +25,21 @@ public class SearchBySellerPageToolsIT {
     @AfterAll
     static void tearDown() {
         WebdriverService.closeDriver();
+    }
+
+    @BeforeEach
+    public void createWireMockServer() {
+        wireMockServer = new WireMockServer(
+                new WireMockConfiguration()
+                        .port(8091)
+                        .enableBrowserProxying(true)
+        );
+        wireMockServer.start();
+    }
+
+    @AfterEach
+    public void tearDownWireMockServer() {
+        wireMockServer.stop();
     }
 
     @Test

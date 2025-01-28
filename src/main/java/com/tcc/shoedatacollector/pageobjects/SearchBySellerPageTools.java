@@ -53,7 +53,7 @@ public class SearchBySellerPageTools {
 
 }
 
-// TODO: Mock web elements in tests - https://stackoverflow.com/questions/64046452/headless-chrome-using-selenium-java-running-tests-in-normal-ui-mode-of-browser
+// TODO: Mock web elements in tests - https://medium.com/@M4tthe/selenium-and-wiremock-for-efficient-request-mocking-4f053f02e283
 // Thoughts about this class's structure:
 // - I should use a constructor to call a bunch of parse methods that extract the important data from the page - maybe it should just go to a mapper
 // - I should add a method to get the next page of items

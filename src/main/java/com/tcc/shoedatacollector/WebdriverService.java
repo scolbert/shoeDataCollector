@@ -31,6 +31,10 @@ public class WebdriverService {
             headlessDriver.quit();
             headlessDriver = null;
         }
+        if (driverWithHead != null) {
+            driverWithHead.quit();
+            driverWithHead = null;
+        }
     }
 
     public static WebDriver createDriverWithHead() {
