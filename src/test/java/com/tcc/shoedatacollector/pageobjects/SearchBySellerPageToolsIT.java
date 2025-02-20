@@ -1,7 +1,6 @@
 package com.tcc.shoedatacollector.pageobjects;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.tcc.shoedatacollector.DTOs.SearchResultsItem;
 import com.tcc.shoedatacollector.WebdriverService;
 import org.junit.jupiter.api.*;
@@ -25,21 +24,6 @@ public class SearchBySellerPageToolsIT {
     @AfterAll
     static void tearDown() {
         WebdriverService.closeDriver();
-    }
-
-    @BeforeEach
-    public void createWireMockServer() {
-        wireMockServer = new WireMockServer(
-                new WireMockConfiguration()
-                        .port(8091)
-                        .enableBrowserProxying(true)
-        );
-        wireMockServer.start();
-    }
-
-    @AfterEach
-    public void tearDownWireMockServer() {
-        wireMockServer.stop();
     }
 
     @Test
@@ -112,6 +96,4 @@ public class SearchBySellerPageToolsIT {
     void openWebPageInChromeBrowser() {
         WebdriverService.OpenSearchBySellerInBrowser(seller);
     }
-
-    //TODO : remove public keyword from all tests
 }
