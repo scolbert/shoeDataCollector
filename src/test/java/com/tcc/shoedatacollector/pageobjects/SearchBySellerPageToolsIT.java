@@ -17,7 +17,9 @@ public class SearchBySellerPageToolsIT {
     private static final String seller = "salty-solesfl";
     private static List<SearchResultsItem> searchResultsItems;
 
-    // Normally I would avoid reusing the same page object in multiple tests, but in this case it is necessary to avoid the overhead of opening a new page for each test
+    // Normally I would avoid reusing the same page object in multiple tests to avoid one test influencing another.
+    // In this case tests only read the page object so one test will not become dependent on another.
+    // Since I cannot mock out eBay due to technical issues, this approach avoids spamming eBay.
     @BeforeAll
     static void setUp() {
         WebDriver sbsPage = WebdriverService.openSearchBySeller(seller);
