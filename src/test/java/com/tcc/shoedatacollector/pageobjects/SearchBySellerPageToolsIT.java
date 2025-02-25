@@ -1,9 +1,11 @@
 package com.tcc.shoedatacollector.pageobjects;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.tcc.shoedatacollector.DTOs.SearchResultsItem;
 import com.tcc.shoedatacollector.WebdriverService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
@@ -12,13 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SearchBySellerPageToolsIT {
-    private static WebDriver sbsPage;
     private static final String seller = "salty-solesfl";
-    private WireMockServer wireMockServer;
+    private static List<SearchResultsItem> searchResultsItems;
 
+    // Normally I would avoid reusing the same page object in multiple tests, but in this case it is necessary to avoid the overhead of opening a new page for each test
     @BeforeAll
     static void setUp() {
-        sbsPage = WebdriverService.openSearchBySeller(seller);
+        WebDriver sbsPage = WebdriverService.openSearchBySeller(seller);
+        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
+        searchResultsItems = sbsTools.getListings(sbsPage);
     }
 
     @AfterAll
@@ -28,15 +32,11 @@ public class SearchBySellerPageToolsIT {
 
     @Test
     void testGetSearchResultItems_returnsAtLeastOneItem_whenHappyDay() {
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         assertFalse(searchResultsItems.isEmpty());
     }
     
     @Test
     void testGetSearchResultItems_returnsValueInTitle_whenHappyDay() {
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         assertNotNull(searchResultsItems.get(0).getTitle());
         assertFalse(searchResultsItems.get(0).getTitle().isEmpty());
     }
@@ -45,8 +45,6 @@ public class SearchBySellerPageToolsIT {
     //TODO find a way to test this without relying on the source page
     @Test
     void testGetSearchResultItems_returnsPageOfItems_whenSellerHasMoreThanOnePageOfItems() {
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         assert(searchResultsItems.size() == 240); // If this number is larger than 240 than it is likely that we have stopped filtering out the 'Shop on eBay' items
         assertNotNull(searchResultsItems.get(239).getTitle()); //last item in the list should be populated with data
         assertFalse(searchResultsItems.get(239).getTitle().isEmpty()); //last item in the list should be populated with data
@@ -54,8 +52,6 @@ public class SearchBySellerPageToolsIT {
 
     @Test
     void testGetSearchResultItems_returnsNoItemsWithShopOnEbayTitle_whenSellerHasMoreThanOnePageOfItems() {
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         for (SearchResultsItem item : searchResultsItems) {
             assertFalse(item.getTitle().contains("Shop on eBay"));
         }
@@ -65,8 +61,6 @@ public class SearchBySellerPageToolsIT {
     // Need to find a way to test these without relying on the source page
     @Test
     void testGetSearchResultItems_returnsNoItemsWithHtmlInTitle_whenSellerHasMoreThanOnePageOfItems() {
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         for (SearchResultsItem item : searchResultsItems) {
             assertFalse(item.getTitle().contains("<"));
         }
@@ -74,8 +68,6 @@ public class SearchBySellerPageToolsIT {
 
     @Test
     void testGetSearchResultItems_returnsNoItemsWithNewListingInTitle_whenSellerHasMoreThanOnePageOfItems() {
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         for (SearchResultsItem item : searchResultsItems) {
             assertFalse(item.getTitle().startsWith("New Listing"));
         }
@@ -84,8 +76,6 @@ public class SearchBySellerPageToolsIT {
     @Disabled  // comment this out if I need to see all titles. This is for development purposes only.
     @Test
     void displayAllItemTitles(){
-        SearchBySellerPageTools sbsTools = new SearchBySellerPageTools();
-        List<SearchResultsItem> searchResultsItems = sbsTools.getListings(sbsPage);
         for (SearchResultsItem item : searchResultsItems) {
             System.out.println(item.getTitle());
         }
