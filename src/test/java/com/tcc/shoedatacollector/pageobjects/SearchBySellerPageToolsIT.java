@@ -43,8 +43,9 @@ public class SearchBySellerPageToolsIT {
         assertFalse(searchResultsItems.get(0).getTitle().isEmpty());
     }
 
-    //NOTE: that this test depends on The scanned seller having at least 240 items listed. If they have less than 240 items listed, this test will fail
-    //TODO find a way to test this without relying on the source page
+    //NOTE: At this point I cannot mock eBays site. This means that I cannot guaranty that the seller will always have
+    // 240 items listed. If they have less than 240 items listed, this test will fail
+    //TODO update this test to use eBay mock when I have one.
     @Test
     void testGetSearchResultItems_returnsPageOfItems_whenSellerHasMoreThanOnePageOfItems() {
         assert(searchResultsItems.size() == 240); // If this number is larger than 240 than it is likely that we have stopped filtering out the 'Shop on eBay' items
@@ -59,8 +60,8 @@ public class SearchBySellerPageToolsIT {
         }
     }
 
-    //TODO these 2 tests may pass even if they are broken because the source page may not have instances of these issues
-    // Need to find a way to test these without relying on the source page
+    // Because I do not have a mock of eBays site yet, this test may pass even if the feature is broken.
+    // TODO Update this test to use eBay mock when I have one.
     @Test
     void testGetSearchResultItems_returnsNoItemsWithHtmlInTitle_whenSellerHasMoreThanOnePageOfItems() {
         for (SearchResultsItem item : searchResultsItems) {
@@ -68,6 +69,8 @@ public class SearchBySellerPageToolsIT {
         }
     }
 
+    // Because I do not have a mock of eBays site yet, this test may pass even if the feature is broken.
+    // TODO Update this test to use eBay mock when I have one.
     @Test
     void testGetSearchResultItems_returnsNoItemsWithNewListingInTitle_whenSellerHasMoreThanOnePageOfItems() {
         for (SearchResultsItem item : searchResultsItems) {
