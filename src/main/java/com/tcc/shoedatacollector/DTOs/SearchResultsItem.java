@@ -1,12 +1,13 @@
 package com.tcc.shoedatacollector.DTOs;
 
+import lombok.Data;
+
+@Data
 public class SearchResultsItem {
     private String title;
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String text) {
-        this.title = text;
-    }
+    private String condition;
+    private boolean hasPriceRange;
+    private Float price;
+    private Float priceLow;
+    private Float priceHigh;
 }

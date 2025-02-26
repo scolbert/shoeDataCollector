@@ -39,16 +39,114 @@ public class SearchBySellerPageTools {
         SearchResultsItem listing = new SearchResultsItem();
 
         String titleText = extractTitle(listingElement);
+        String conditionText = extractCondition(listingElement);
+
+        Float price = null;
+        Float priceHigh = null;
+        Float priceLow = null;
+        if(hasPriceRange(listingElement)) {
+            priceHigh = extractPriceHigh(listingElement);
+            priceLow = extractPriceLow(listingElement);
+        } else {
+            price = extractPrice(listingElement);
+        }
 
         listing.setTitle(titleText);
+        listing.setCondition(conditionText);
+
+        if(hasPriceRange(listingElement)) {
+            listing.setPriceLow(priceLow);
+            listing.setPriceHigh(priceHigh);
+            listing.setHasPriceRange(true);
+        } else {
+            listing.setPrice(price);
+            listing.setHasPriceRange(false);
+        }
         return listing;
     }
 
     private static String extractTitle(WebElement listingElement) {
-        String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
-        titleText =
-                TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
-        return titleText;
+        try {
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            return titleText;
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            System.out.println("Error extracting title for " + listingElement.getAttribute("innerHTML"));
+        }
+        return "error extracting title";
+    }
+
+    private static String extractCondition(WebElement listingElement) {
+        try {
+            return listingElement.findElement(By.cssSelector("div.s-item__subtitle > span[class='SECONDARY_INFO']")).getAttribute("innerHTML");
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            System.out.println("Error extracting condition for " + titleText);
+        }
+        return "error extracting condition";
+    }
+
+    private static boolean hasPriceRange(WebElement listingElement) {
+        try {
+            return listingElement.findElement(By.cssSelector("span.s-item__price")).getText().contains("to");
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            System.out.println("Error extracting hasPriceRange for " + titleText);
+        }
+        return false;
+    }
+
+    private static Float extractPrice(WebElement listingElement) {
+        try {
+        String priceText = listingElement.findElement(By.cssSelector("span.s-item__price")).getAttribute("innerHTML");
+        priceText = TitleUtilities.removeHtmlFromText(priceText);
+        return Float.parseFloat(priceText.substring(1));
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            System.out.println("Error extracting price for " + titleText);
+        }
+        return -1.0f;
+    }
+
+    private static Float extractPriceLow(WebElement listingElement) {
+        try {
+        String priceText = listingElement.findElement(By.cssSelector("span.s-item__price")).getAttribute("innerHTML");
+        priceText = TitleUtilities.removeHtmlFromText(priceText);
+        return Float.parseFloat(priceText.substring(1, priceText.indexOf("to") - 1));
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            System.out.println("Error extracting priceLow for " + titleText);
+        }
+        return -1.0f;
+    }
+
+    private static Float extractPriceHigh(WebElement listingElement) {
+        try {
+            String priceText = listingElement.findElement(By.cssSelector("span.s-item__price")).getAttribute("innerHTML");
+            priceText = TitleUtilities.removeHtmlFromText(priceText);
+            return Float.parseFloat(priceText.substring(priceText.indexOf("to") + 4)); // 4 is the length of " to $"
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            System.out.println("Error extracting priceLow for " + titleText);
+        }
+        return -1.0f;
     }
 
 }
