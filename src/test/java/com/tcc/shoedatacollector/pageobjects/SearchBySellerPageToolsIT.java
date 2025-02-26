@@ -115,6 +115,14 @@ public class SearchBySellerPageToolsIT {
         }
     }
 
+    @Test
+    void testGetShippingPrice_returnsValue_whenHappyDay() {
+        for (SearchResultsItem item : searchResultsItems) {
+            assertNotNull(item.getShippingPrice(), "Shipping price is null for " + item.getTitle());
+            assertTrue(item.getShippingPrice() >= 0, "Shipping price is negative for " + item.getTitle());
+        }
+    }
+
     private static void assertHasPriceValues(SearchResultsItem item) {
         if(item.isHasPriceRange()) {
             assertNotNull(item.getPriceLow());

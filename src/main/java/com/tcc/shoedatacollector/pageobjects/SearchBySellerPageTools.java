@@ -9,6 +9,9 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO extract the logic that does not simply get the elements from the page into separate methods
+// The main method should extract the string and separate methods should clean up the strings. This way the
+// clean up methods can be tested separately.
 public class SearchBySellerPageTools {
     private final List<SearchResultsItem> result = new ArrayList<>();
 
@@ -44,7 +47,7 @@ public class SearchBySellerPageTools {
         Float price = null;
         Float priceHigh = null;
         Float priceLow = null;
-        if(hasPriceRange(listingElement)) {
+        if(hasPriceRange(listingElement)) {  // TODO I could make these methods return null and then remove the if statement
             priceHigh = extractPriceHigh(listingElement);
             priceLow = extractPriceLow(listingElement);
         } else {
@@ -54,7 +57,7 @@ public class SearchBySellerPageTools {
         listing.setTitle(titleText);
         listing.setCondition(conditionText);
 
-        if(hasPriceRange(listingElement)) {
+        if(hasPriceRange(listingElement)) {  // TODO I could assign the value directly to the listing without the if statement
             listing.setPriceLow(priceLow);
             listing.setPriceHigh(priceHigh);
             listing.setHasPriceRange(true);
@@ -62,9 +65,16 @@ public class SearchBySellerPageTools {
             listing.setPrice(price);
             listing.setHasPriceRange(false);
         }
+
+        listing.setShippingPrice(extractShippingPrice(listingElement));
         return listing;
     }
 
+    // TODO: Can I remove boilerplate try catch blocks by using spring AOP?
+    // TODO: Can I remove boilerplate try catch blocks by using a custom exception handler?
+    // TODO: When I find exceptions persist them in a way that I can find them later. I am sure I will find some after the program is live.
+    // TODO: Standardize and clean up error messages
+    // TODO: Replace println statements with logging
     private static String extractTitle(WebElement listingElement) {
         try {
             String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
@@ -73,7 +83,7 @@ public class SearchBySellerPageTools {
             return titleText;
         } catch (Exception e) {
             // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
-            System.out.println("Error extracting title for " + listingElement.getAttribute("innerHTML"));
+            System.out.println("Error extracting title for " + listingElement.getAttribute("innerHTML") + " " + e.getMessage());
         }
         return "error extracting title";
     }
@@ -86,7 +96,7 @@ public class SearchBySellerPageTools {
             String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
             titleText =
                     TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
-            System.out.println("Error extracting condition for " + titleText);
+            System.out.println("Error extracting condition for " + titleText + " " + e.getMessage());
         }
         return "error extracting condition";
     }
@@ -99,7 +109,7 @@ public class SearchBySellerPageTools {
             String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
             titleText =
                     TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
-            System.out.println("Error extracting hasPriceRange for " + titleText);
+            System.out.println("Error extracting hasPriceRange for " + titleText + " " + e.getMessage());
         }
         return false;
     }
@@ -114,11 +124,12 @@ public class SearchBySellerPageTools {
             String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
             titleText =
                     TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
-            System.out.println("Error extracting price for " + titleText);
+            System.out.println("Error extracting price for " + titleText + " " + e.getMessage());
         }
         return -1.0f;
     }
 
+    // TODO: There has got to be a cleaner way to get the title into the logs.
     private static Float extractPriceLow(WebElement listingElement) {
         try {
         String priceText = listingElement.findElement(By.cssSelector("span.s-item__price")).getAttribute("innerHTML");
@@ -129,7 +140,7 @@ public class SearchBySellerPageTools {
             String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
             titleText =
                     TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
-            System.out.println("Error extracting priceLow for " + titleText);
+            System.out.println("Error extracting priceLow for " + titleText + " " + e.getMessage());
         }
         return -1.0f;
     }
@@ -144,7 +155,32 @@ public class SearchBySellerPageTools {
             String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
             titleText =
                     TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
-            System.out.println("Error extracting priceLow for " + titleText);
+            System.out.println("Error extracting priceLow for " + titleText + " " + e.getMessage());
+        }
+        return -1.0f;
+    }
+
+    // TODO I need to rename TitleUtilities to something more generic
+    // TODO It would be cleaner to clean up the text in one place and to parseFloat on another line. I am combining tasks here so it isn't as clear.
+
+    private static Float extractShippingPrice(WebElement listingElement) {
+        try {
+            if(listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML").contains("Buy on eBay")) {
+                return -1.0f;
+            }
+            String shippingPriceText = listingElement.findElement(By.cssSelector("span.s-item__shipping")).getAttribute("innerHTML");
+            shippingPriceText = TitleUtilities.removeHtmlFromText(shippingPriceText);
+            if(shippingPriceText.toUpperCase().contains("FREE")) {
+                return 0.0f;
+            }
+            return Float.parseFloat(shippingPriceText.strip().substring(2, shippingPriceText.indexOf(" "))); // 2 is the length of "+$"
+        } catch (Exception e) {
+            // TODO log errors that are because of the page structure changing or because I haven't accounted for a value
+            // TODO Some listings have "Buy on eBay" in the title. I should skip those entirely for tests
+            String titleText = listingElement.findElement(By.cssSelector("div.s-item__title > span[role='heading']")).getAttribute("innerHTML");
+            titleText =
+                    TitleUtilities.removeWordsNewListingFromText(TitleUtilities.removeHtmlFromText(titleText));
+            System.out.println("Error extracting shippingPrice for " + titleText + " Message: " + e.getMessage());
         }
         return -1.0f;
     }

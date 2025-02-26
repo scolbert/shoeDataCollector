@@ -10,4 +10,5 @@ public class SearchResultsItem {
     private Float price;
     private Float priceLow;
     private Float priceHigh;
+    private Float shippingPrice;
 }
